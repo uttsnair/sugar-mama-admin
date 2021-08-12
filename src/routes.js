@@ -27,6 +27,7 @@ import AppScreens from "views/AppScreens";
 import Modules from "views/Modules";
 import Questionnaire from "views/Questionnaire";
 import QuickTips from "views/QuickTips";
+import Users from "views/Users";
 
 const dashboardRoutes = [
 	// {
@@ -55,6 +56,13 @@ const dashboardRoutes = [
 		name: "Quick Tips",
 		icon: "pe-7s-info",
 		component: QuickTips,
+		layout: "/admin",
+	},
+	{
+		path: "/users",
+		name: "Users",
+		icon: "pe-7s-note2",
+		component: Users,
 		layout: "/admin",
 	},
 	// {

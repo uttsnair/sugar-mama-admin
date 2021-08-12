@@ -201,6 +201,7 @@ export default function Modules() {
                 snapshot.forEach((doc) => {
                     modules.push({id: doc.id, ...doc.data()});
                 });
+                console.log(modules);
                 setModules(modules);
             })
             .catch((err) => alert(err.message));
