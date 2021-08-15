@@ -201,7 +201,9 @@ export default function Modules() {
                 snapshot.forEach((doc) => {
                     modules.push({id: doc.id, ...doc.data()});
                 });
-                console.log(modules);
+                modules.sort((a, b) => {
+                    return new Date(b.createdAt) - new Date(a.createdAt);
+                })
                 setModules(modules);
             })
             .catch((err) => alert(err.message));
