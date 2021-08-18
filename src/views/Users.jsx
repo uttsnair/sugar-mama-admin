@@ -30,6 +30,8 @@ const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
 export default function Users() {
     const [users, setUsers] = useState([]);
+    const [showViewModal, setShowViewModal] = useState(false);
+    const [quesAnsObj, setQuesAnsObj] = useState(null);
 
     const columns = [
         {
@@ -56,8 +58,33 @@ export default function Users() {
             filter: textFilter(),
             sort: true,
         },
-        
+        {
+            text: "Questions and Answers",
+            formatter: (cellContent, row) => {
+                return (
+                    <td style={{justifyContent: "space-evenly"}}>
+                        <IconButton>
+                            <Edit
+                                onClick={() => {
+                                    viewQuesAns(row);
+                                }}
+                            />
+                        </IconButton>
+                    </td>
+                );
+            },
+        },
     ];
+
+    const viewQuesAns = (data) => {
+        console.log(data);
+        if (data && (data.GDMKQAnswers || data.DESAnswers)) {
+            setQuesAnsObj(data);
+        }
+        else
+            setQuesAnsObj("No Questions and Answers exist");
+        setShowViewModal(true);
+    }
 
     const getUsers = () => {
         firestore
@@ -70,7 +97,7 @@ export default function Users() {
                     res.date = res.date && res.date.seconds ? res.date.toDate().toString().split(' ').slice(0,4).join(' ') : '';
                     users.push(res);
                 });
-
+                console.log(users);
                 setUsers(users);
             })
             .catch((err) => alert(err.message));
@@ -82,6 +109,38 @@ export default function Users() {
 
     return (
         <div className="content">
+            {showViewModal && (
+                <Modal.Dialog>
+                    <Modal.Header>
+                        <Modal.Title>Questions And Answers</Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body style={{ maxHeight: '300px', overflowY: "scroll" }}>
+                        <h5 style={{ fontWeight: 'bold' }}>GDMK Answers</h5>
+                        <ul>
+                            {quesAnsObj.GDMKQAnswers.map((obj) => {
+                                return (<div><li key="1"><div>{obj.ques}</div><div>User Answer: {obj.ans}</div></li><br></br></div>)
+                            })}
+                        </ul>
+                        <h5 style={{ fontWeight: 'bold' }}>DES Answers</h5>
+                        <ul>
+                            {quesAnsObj.DESAnswers.map((obj) => {
+                                return (<div><li key="1"><div>{obj.ques}</div><div>User Answer: {obj.ans.label}</div></li><br></br></div>)
+                            })}
+                        </ul>
+                    </Modal.Body>
+
+                    <Modal.Footer>
+                        <Button
+                            onClick={() => {
+                                setShowViewModal(false);
+                            }}
+                        >
+                            Close
+                        </Button>
+                    </Modal.Footer>
+                </Modal.Dialog>
+            )}
             <Grid fluid>
                 <Row>
                     <Col md="12">
