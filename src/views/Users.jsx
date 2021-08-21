@@ -125,7 +125,7 @@ export default function Users() {
                         <h5 style={{ fontWeight: 'bold' }}>DES Answers</h5>
                         <ul>
                             {quesAnsObj.DESAnswers.map((obj) => {
-                                return (<div><li key="1"><div>{obj.ques}</div><div>User Answer: {obj.ans.label}</div></li><br></br></div>)
+                                return (<div><li key="1"><div>{obj.ques ? obj.ques : '' }</div><div>User Answer: {obj.ans ? obj.ans.label : obj.label}</div></li><br></br></div>)
                             })}
                         </ul>
                     </Modal.Body>
