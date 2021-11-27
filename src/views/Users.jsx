@@ -118,14 +118,14 @@ export default function Users() {
                     <Modal.Body style={{ maxHeight: '300px', overflowY: "scroll" }}>
                         <h5 style={{ fontWeight: 'bold' }}>GDMK Answers</h5>
                         <ul>
-                            {quesAnsObj.GDMKQAnswers.map((obj) => {
-                                return (<div><li key="1"><div>{obj.ques}</div><div>User Answer: {obj.ans}</div></li><br></br></div>)
+                            {(quesAnsObj.GDMKQAnswers || []).map((obj) => {
+                                return (<div><li key="1"><div>{obj.ques}</div><div>User Answer: {(typeof obj === "string") ? obj : obj.ans}</div></li><br></br></div>)
                             })}
                         </ul>
                         <h5 style={{ fontWeight: 'bold' }}>DES Answers</h5>
                         <ul>
-                            {quesAnsObj.DESAnswers.map((obj) => {
-                                return (<div><li key="1"><div>{obj.ques ? obj.ques : '' }</div><div>User Answer: {obj.ans ? obj.ans.label : obj.label}</div></li><br></br></div>)
+                            {(quesAnsObj.DESAnswers || []).map((obj) => {
+                                return (<div><li key="1"><div>{obj.ques ? obj.ques : '' }</div><div>User Answer: {(typeof obj.ans === "object") ? obj.ans.label : obj.label}</div></li><br></br></div>)
                             })}
                         </ul>
                     </Modal.Body>
